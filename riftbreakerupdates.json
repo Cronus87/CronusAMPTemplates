@@ -7,6 +7,22 @@
         "SkipOnFailure": false
     },
     {
+        "UpdateStageName": "Steamworks SDK Redist",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "SteamCMD",
+        "UpdateSourceData": "1007",
+        "ForceDownloadPlatform": "Windows",
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "Copy Steam Client Library",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"SRC=\\\"{{$FullRootDir}}1007/steamclient64.dll\\\"; DST=\\\"{{$FullBaseDir}}bin/steamclient64.dll\\\"; if [[ -f \\\"$SRC\\\" ]]; then cp -f \\\"$SRC\\\" \\\"$DST\\\" && echo \\\"Copied steamclient64.dll\\\"; else echo \\\"steamclient64.dll not found at $SRC\\\"; fi\"",
+        "SkipOnFailure": true
+    },
+    {
         "UpdateStageName": "Initialise Wine",
         "UpdateSourcePlatform": "Linux",
         "UpdateSource": "Executable",

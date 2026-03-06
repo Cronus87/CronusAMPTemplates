@@ -31,9 +31,9 @@ App.RootDir=./riftbreaker/
 App.BaseDirectory=./riftbreaker/4114030/
 App.SteamWorkshopDownloadLocation=
 App.ExecutableWin=4114030\bin\DedicatedServer.exe
-App.ExecutableLinux=/usr/bin/wine
+App.ExecutableLinux=/usr/bin/xvfb-run
 App.WorkingDir=4114030/bin
-App.LinuxCommandLineArgs={{$FullBaseDir}}bin/DedicatedServer.exe
+App.LinuxCommandLineArgs=-a /usr/bin/wine {{$FullBaseDir}}bin/DedicatedServer.exe
 App.WindowsCommandLineArgs=
 App.CommandLineArgs={{$PlatformArgs}} cli=1 {{$FormattedArgs}}
 App.UseLinuxIOREDIR=False
