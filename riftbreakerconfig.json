@@ -1,0 +1,113 @@
+[
+    {
+        "DisplayName": "Server Name",
+        "Category": "The Riftbreaker:stadia_controller",
+        "Subcategory": "Server Settings:dns:1",
+        "Keywords": "server,name,title",
+        "Description": "The name of the server as displayed in the server browser",
+        "FieldName": "ServerName",
+        "ParamFieldName": "server_name",
+        "placeholder": "My Riftbreaker Server",
+        "suffix": "",
+        "InputType": "text",
+        "IncludeInCommandLine": true,
+        "DefaultValue": "AMP Riftbreaker Server",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Server Password",
+        "Category": "The Riftbreaker:stadia_controller",
+        "Subcategory": "Server Settings:dns:1",
+        "Keywords": "password,pw,security",
+        "Description": "Password required for players to join the server. Leave blank for no password.",
+        "FieldName": "ServerPassword",
+        "ParamFieldName": "password",
+        "placeholder": "",
+        "suffix": "",
+        "InputType": "password",
+        "IncludeInCommandLine": true,
+        "DefaultValue": "",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Max Players",
+        "Category": "The Riftbreaker:stadia_controller",
+        "Subcategory": "Server Settings:dns:1",
+        "Keywords": "players,max,maximum,slots",
+        "Description": "Maximum number of players allowed on the server. Default co-op supports 4, but can be increased up to 32 with server_max_players_count console command.",
+        "FieldName": "$MaxUsers",
+        "ParamFieldName": "max_players",
+        "placeholder": "4",
+        "suffix": "Players",
+        "InputType": "number",
+        "IncludeInCommandLine": true,
+        "DefaultValue": "4",
+        "MinValue": "1",
+        "MaxValue": "32",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Server Visibility",
+        "Category": "The Riftbreaker:stadia_controller",
+        "Subcategory": "Server Settings:dns:1",
+        "Keywords": "visibility,public,private,friends",
+        "Description": "Controls who can see and join the server",
+        "FieldName": "Visibility",
+        "ParamFieldName": "visibility",
+        "InputType": "enum",
+        "IncludeInCommandLine": true,
+        "DefaultValue": "public",
+        "EnumValues": {
+            "public": "Public - Visible to everyone",
+            "friends": "Friends Only - Visible to friends",
+            "private": "Private - Invite only"
+        }
+    },
+    {
+        "DisplayName": "Game Port",
+        "Category": "The Riftbreaker:stadia_controller",
+        "Subcategory": "Network:settings_ethernet:2",
+        "Keywords": "port,game,network,connection",
+        "Description": "The UDP port used for game connections. Default is 6321.",
+        "FieldName": "GamePort",
+        "ParamFieldName": "port",
+        "placeholder": "6321",
+        "suffix": "",
+        "InputType": "number",
+        "IncludeInCommandLine": true,
+        "DefaultValue": "6321",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "No Steam Mode",
+        "Category": "The Riftbreaker:stadia_controller",
+        "Subcategory": "Network:settings_ethernet:2",
+        "Keywords": "steam,nosteam,direct,ip,connect",
+        "Description": "When enabled, the server runs in non-DRM mode allowing direct IP connections without Steam",
+        "FieldName": "NoSteam",
+        "ParamFieldName": "no_steam",
+        "InputType": "checkbox",
+        "IsFlagArgument": true,
+        "IncludeInCommandLine": true,
+        "DefaultValue": "",
+        "EnumValues": {
+            "True": "-no_steam",
+            "False": ""
+        }
+    },
+    {
+        "DisplayName": "Save Name",
+        "Category": "The Riftbreaker:stadia_controller",
+        "Subcategory": "Game Settings:build:3",
+        "Keywords": "save,name,world,game",
+        "Description": "The name of the save file to load or create",
+        "FieldName": "SaveName",
+        "ParamFieldName": "save_name",
+        "placeholder": "default",
+        "suffix": "",
+        "InputType": "text",
+        "IncludeInCommandLine": true,
+        "DefaultValue": "default",
+        "EnumValues": {}
+    }
+]

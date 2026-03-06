@@ -1,0 +1,22 @@
+[
+    {
+        "Protocol": "UDP",
+        "Port": 6321,
+        "Offset": 0,
+        "Range": 1,
+        "Ref": "ApplicationPort1",
+        "Name": "Game Port",
+        "Description": "The main game port used for player connections",
+        "ChildPorts": null
+    },
+    {
+        "Protocol": "UDP",
+        "Port": 27015,
+        "Offset": 0,
+        "Range": 1,
+        "Ref": "SteamQueryPort",
+        "Name": "Steam Query Port",
+        "Description": "Steam server browser query port",
+        "ChildPorts": null
+    }
+]
