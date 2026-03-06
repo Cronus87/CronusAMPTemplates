@@ -1,9 +1,9 @@
 {
-    "id": "b7e3a1d0-4f2c-4e8a-9c6b-1d5f3a7e9b2c",
-    "Authors": "Cronus",
-    "Origin": "",
-    "URL": "",
-    "Type": "AppTemplates",
-    "ImageFile": "",
-    "Prefix": ""
+	"id": "b7e3a1d0-4f2c-4e8a-9c6b-1d5f3a7e9b2c",
+	"authors": ["Cronus"],
+	"origin": "https://github.com/Cronus87/CronusAMPTemplates.git",
+	"url": "https://github.com/Cronus87/CronusAMPTemplates",
+	"imagefile": "",
+	"prefix": "",
+	"repotype": "AppTemplates"
 }
