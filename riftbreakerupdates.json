@@ -1,5 +1,13 @@
 [
     {
+        "UpdateStageName": "SteamCMD Warmup",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"{{$FullRootDir}}steamcmd.sh +login anonymous +quit 2>&1; echo 'SteamCMD warmup complete'; exit 0\"",
+        "SkipOnFailure": true
+    },
+    {
         "UpdateStageName": "SteamCMD Download",
         "UpdateSourcePlatform": "All",
         "UpdateSource": "SteamCMD",
