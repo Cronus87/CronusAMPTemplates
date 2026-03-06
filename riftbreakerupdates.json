@@ -11,7 +11,7 @@
         "UpdateSourcePlatform": "Linux",
         "UpdateSource": "Executable",
         "UpdateSourceData": "/bin/bash",
-        "UpdateSourceArgs": "-c \"if [[ -d \\\"{{$FullRootDir}}.wineprefix/drive_c\\\" ]]; then echo \\\"Wine prefix already exists. Skipping.\\\"; exit 0; fi; echo \\\"Initialising Wine prefix...\\\"; Xvfb :99 -screen 0 1024x768x16 &>/dev/null & XVFB_PID=$!; sleep 1; DISPLAY=:99 WINEPREFIX=\\\"{{$FullRootDir}}.wineprefix\\\" HOME=\\\"{{$FullBaseDir}}\\\" /opt/wine-stable/bin/wineboot --init 2>&1; kill $XVFB_PID 2>/dev/null; echo \\\"Wine prefix initialised.\\\"; exit 0\"",
+        "UpdateSourceArgs": "-c \"if [[ -f \\\"{{$FullRootDir}}.wineprefix/system.reg\\\" ]]; then echo \\\"Wine prefix already exists. Skipping.\\\"; exit 0; fi; rm -rf \\\"{{$FullRootDir}}.wineprefix\\\" 2>/dev/null; echo \\\"Initialising Wine prefix...\\\"; Xvfb :99 -screen 0 1024x768x16 &>/dev/null & XVFB_PID=$!; sleep 1; DISPLAY=:99 WINEPREFIX=\\\"{{$FullRootDir}}.wineprefix\\\" WINEDLLOVERRIDES=\\\"mscoree=d;mshtml=d\\\" HOME=\\\"{{$FullBaseDir}}\\\" /opt/wine-stable/bin/wineboot --init 2>&1; RESULT=$?; kill $XVFB_PID 2>/dev/null; if [[ -f \\\"{{$FullRootDir}}.wineprefix/system.reg\\\" ]]; then echo \\\"Wine prefix initialised.\\\"; exit 0; else echo \\\"Wine prefix creation failed.\\\"; exit 1; fi\"",
         "SkipOnFailure": true
     },
     {
