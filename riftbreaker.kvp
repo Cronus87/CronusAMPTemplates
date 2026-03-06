@@ -11,7 +11,7 @@ Meta.ConfigManifest=riftbreakerconfig.json
 Meta.MetaConfigManifest=riftbreakermetaconfig.json
 Meta.ConfigRoot=riftbreaker.kvp
 Meta.MinAMPVersion=2.6.0.0
-Meta.SpecificDockerImage=cubecoders/ampbase:debian
+Meta.SpecificDockerImage=cubecoders/ampbase:wine-stable
 Meta.DockerRequired=False
 Meta.DockerBaseReadOnly=False
 Meta.ContainerPolicy=Supported
@@ -31,14 +31,14 @@ App.RootDir=./riftbreaker/
 App.BaseDirectory=./riftbreaker/4114030/
 App.SteamWorkshopDownloadLocation=
 App.ExecutableWin=4114030\bin\DedicatedServer.exe
-App.ExecutableLinux=.proton/proton
+App.ExecutableLinux=/opt/wine-stable/bin/wine
 App.WorkingDir=4114030/bin
-App.LinuxCommandLineArgs=runinprefix "{{$FullBaseDir}}bin/DedicatedServer.exe"
+App.LinuxCommandLineArgs={{$FullBaseDir}}bin/DedicatedServer.exe
 App.WindowsCommandLineArgs=
 App.CommandLineArgs={{$PlatformArgs}} cli=1 {{$FormattedArgs}}
 App.UseLinuxIOREDIR=False
 App.AppSettings={}
-App.EnvironmentVariables={"LD_LIBRARY_PATH":"{{$FullBaseDir}}bin:{{$FullRootDir}}linux64:%LD_LIBRARY_PATH%","SteamAppId":"780310","STEAM_COMPAT_DATA_PATH":"{{$FullRootDir}}.proton/compatdata","STEAM_COMPAT_CLIENT_INSTALL_PATH":"{{$FullBaseDir}}.steam/steam","HOME":"{{$FullBaseDir}}","XDG_RUNTIME_DIR":"/tmp","PROTON_NO_ESYNC":"1","PROTON_NO_FSYNC":"1","WINEDLLOVERRIDES":"dbghelp=n,b"}
+App.EnvironmentVariables={"WINEPREFIX":"{{$FullRootDir}}.wineprefix","WINEDLLOVERRIDES":"dbghelp=n,b","DISPLAY":":99","HOME":"{{$FullBaseDir}}","XDG_RUNTIME_DIR":"/tmp"}
 App.CommandLineParameterFormat={0}={1}
 App.CommandLineParameterDelimiter=
 App.ExitMethod=OS_CLOSE
@@ -85,7 +85,7 @@ App.RapidStartup=False
 App.SmartExcludeExemptions=["*.cfg","*.conf","*.config","*.ini","*.json","*.xml","*.properties","*.kvp","*.yml","*.yaml","*.toml","*.lua"]
 App.SmartExcludeSupported=True
 App.DumpFullChildProcessTree=False
-App.MonitorChildProcessName=^.*DedicatedServer.*$
+App.MonitorChildProcessName=^.*DedicatedServer\.exe.*$
 App.MonitorDirectChildOnly=False
 App.SupportsUniversalSleep=False
 App.WakeupMode=Any

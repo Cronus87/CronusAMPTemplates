@@ -7,11 +7,19 @@
         "SkipOnFailure": false
     },
     {
-        "UpdateStageName": "Proton GE Download",
+        "UpdateStageName": "Wine Prefix Setup",
         "UpdateSourcePlatform": "Linux",
         "UpdateSource": "Executable",
         "UpdateSourceData": "/bin/bash",
-        "UpdateSourceArgs": "-c \"cd \\\"{{$FullRootDir}}\\\"; mkdir -p \\\"{{$FullRootDir}}.proton/compatdata\\\" \\\"{{$FullBaseDir}}.steam/steam\\\" \\\"{{$FullBaseDir}}.steam/sdk32\\\" \\\"{{$FullBaseDir}}.steam/sdk64\\\" \\\"{{$FullBaseDir}}.config/protonfixes\\\" && \\cp -f \\\"{{$FullRootDir}}linux32/steamclient.so\\\" \\\"{{$FullBaseDir}}.steam/sdk32/\\\" && \\cp -f \\\"{{$FullRootDir}}linux64/steamclient.so\\\" \\\"{{$FullBaseDir}}.steam/sdk64/\\\"; if [[ -x \\\"{{$FullRootDir}}.proton/proton\\\" && -f \\\"{{$FullRootDir}}.proton/version\\\" ]]; then read _ InstalledVersion < \\\"{{$FullRootDir}}.proton/version\\\"; else InstalledVersion=\\\"\\\"; fi; ProtonVersion=$(wget -qO- https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases/latest | jq -r .tag_name); if [[ -z \\\"$ProtonVersion\\\" || \\\"$ProtonVersion\\\" == \\\"null\\\" ]]; then echo \\\"Failed to fetch Proton GE version from GitHub API\\\" && exit 1; elif [[ \\\"$InstalledVersion\\\" == \\\"$ProtonVersion\\\"* ]]; then echo \\\"Proton GE version $ProtonVersion already installed. Skipping\\\" && exit 0; else [[ -f GE-Proton.tar.gz ]] && rm -f GE-Proton.tar.gz >/dev/null 2>&1; wget -qO GE-Proton.tar.gz https://github.com/GloriousEggroll/proton-ge-custom/releases/download/$ProtonVersion/$ProtonVersion.tar.gz || { echo \\\"Proton GE download failed from GitHub. Aborting\\\"; exit 1; }; rm -rf \\\"{{$FullRootDir}}.proton/compatdata/\\\"* >/dev/null 2>&1; tar -xzf GE-Proton.tar.gz -C \\\"{{$FullRootDir}}.proton\\\" --strip-components=1 && rm -f GE-Proton.tar.gz >/dev/null 2>&1 && echo \\\"Proton GE version $ProtonVersion downloaded\\\" && { STEAM_COMPAT_DATA_PATH=\\\"{{$FullRootDir}}.proton/compatdata\\\" STEAM_COMPAT_CLIENT_INSTALL_PATH=\\\"{{$FullBaseDir}}.steam/steam\\\" \\\"{{$FullRootDir}}.proton/proton\\\" PROTON_LOG=1 >/dev/null 2>&1; exit 0; }; fi\"",
+        "UpdateSourceArgs": "-c \"if [[ -d \\\"{{$FullRootDir}}.wineprefix/drive_c\\\" ]]; then echo \\\"Wine prefix already exists. Skipping.\\\"; exit 0; fi; echo \\\"Initialising Wine prefix...\\\"; Xvfb :99 -screen 0 1024x768x16 &>/dev/null & XVFB_PID=$!; sleep 1; DISPLAY=:99 WINEPREFIX=\\\"{{$FullRootDir}}.wineprefix\\\" HOME=\\\"{{$FullBaseDir}}\\\" /opt/wine-stable/bin/wineboot --init 2>&1; kill $XVFB_PID 2>/dev/null; echo \\\"Wine prefix initialised.\\\"; exit 0\"",
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "Set DX11 Render System",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"CFG=\\\"{{$FullBaseDir}}conf/initial_config_win.cfg\\\"; if [[ -f \\\"$CFG\\\" ]]; then sed -i 's/set render_system \\\"dx12\\\"/set render_system \\\"dx11\\\"/' \\\"$CFG\\\" && echo \\\"Set render_system to dx11\\\"; else echo \\\"Config file not found: $CFG\\\"; fi\"",
         "SkipOnFailure": true
     }
 ]

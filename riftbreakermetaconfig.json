@@ -1,6 +1,6 @@
 [
     {
-        "ConfigFile": "../conf/initial_config.cfg",
+        "ConfigFile": "conf/initial_config.cfg",
         "AutoMap": true,
         "Importable": true,
         "ConfigType": "kvp",
