@@ -19,7 +19,7 @@
         "UpdateSourcePlatform": "Linux",
         "UpdateSource": "Executable",
         "UpdateSourceData": "/bin/bash",
-        "UpdateSourceArgs": "-c \"SRC=\\\"{{$FullRootDir}}1007/steamclient64.dll\\\"; DST=\\\"{{$FullBaseDir}}bin/steamclient64.dll\\\"; if [[ -f \\\"$SRC\\\" ]]; then cp -f \\\"$SRC\\\" \\\"$DST\\\" && echo \\\"Copied steamclient64.dll\\\"; else echo \\\"steamclient64.dll not found at $SRC\\\"; fi\"",
+        "UpdateSourceArgs": "-c \"SRC=\\\"{{$FullRootDir}}1007\\\"; DST=\\\"{{$FullBaseDir}}bin\\\"; for DLL in steamclient64.dll tier0_s64.dll vstdlib_s64.dll; do if [[ -f \\\"$SRC/$DLL\\\" ]]; then cp -f \\\"$SRC/$DLL\\\" \\\"$DST/\\\" && echo \\\"Copied $DLL\\\"; else echo \\\"$DLL not found\\\"; fi; done\"",
         "SkipOnFailure": true
     },
     {
