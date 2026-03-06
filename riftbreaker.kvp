@@ -31,14 +31,14 @@ App.RootDir=./riftbreaker/
 App.BaseDirectory=./riftbreaker/4114030/
 App.SteamWorkshopDownloadLocation=
 App.ExecutableWin=4114030\bin\DedicatedServer.exe
-App.ExecutableLinux=/opt/wine-stable/bin/wine
+App.ExecutableLinux=/usr/bin/xvfb-run
 App.WorkingDir=4114030/bin
-App.LinuxCommandLineArgs={{$FullBaseDir}}bin/DedicatedServer.exe
+App.LinuxCommandLineArgs=-a /opt/wine-stable/bin/wine {{$FullBaseDir}}bin/DedicatedServer.exe
 App.WindowsCommandLineArgs=
 App.CommandLineArgs={{$PlatformArgs}} cli=1 {{$FormattedArgs}}
 App.UseLinuxIOREDIR=False
 App.AppSettings={}
-App.EnvironmentVariables={"WINEPREFIX":"{{$FullRootDir}}.wineprefix","WINEDLLOVERRIDES":"mscoree=d;mshtml=d;dbghelp=n,b","DISPLAY":":99","HOME":"{{$FullBaseDir}}","XDG_RUNTIME_DIR":"/tmp"}
+App.EnvironmentVariables={"WINEPREFIX":"{{$FullRootDir}}.wineprefix","WINEDLLOVERRIDES":"mscoree=d;mshtml=d;dbghelp=n,b","HOME":"{{$FullBaseDir}}","XDG_RUNTIME_DIR":"/tmp"}
 App.CommandLineParameterFormat={0}={1}
 App.CommandLineParameterDelimiter=
 App.ExitMethod=OS_CLOSE
