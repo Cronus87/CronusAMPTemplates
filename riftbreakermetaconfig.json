@@ -1,1 +1,8 @@
-[]
+[
+    {
+        "ConfigFile": "../conf/initial_config.cfg",
+        "AutoMap": false,
+        "ConfigType": "kvp",
+        "ConfigFormat": "set {0} \"{1}\""
+    }
+]
