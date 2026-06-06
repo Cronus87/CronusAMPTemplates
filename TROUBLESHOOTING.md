@@ -148,10 +148,19 @@ open issues (7, 10, and the join failure) and are now baked into the template fi
    `steam_settings/disable_networking.txt`. Result: `SteamAPI_Init` succeeds
    ("Steam achievement data sync successful"). The DLL URL is now the `GoldbergUrl`
    config field (default = a known-good GitLab CI artifact).
-2. **BepInEx mod-loading race under Wine** (game hung at the menu with no GPU): fixed
-   by using the community Wine env — `WINEDLLOVERRIDES="mscoree=n,b;mshtml=n,b;winhttp=n,b"`
-   — and a proper virtual display: `xvfb-run -a -s "-screen 0 1280x720x24"`. After this
-   the save loads and the server binds its port reliably.
+2. **BepInEx mod-loading race under Wine** (game hung at the menu with no GPU): greatly
+   improved by the community Wine env — `WINEDLLOVERRIDES="mscoree=n,b;mshtml=n,b;winhttp=n,b"`
+   — and a proper virtual display: `xvfb-run -a -s "-screen 0 1280x720x24"`.
+   **NOT 100% deterministic, though.** BepInEx's preloader patches `UnityEngine.Application..cctor`
+   to inject the chainloader (which loads the mods). A static ctor runs once; under Wine the
+   timing of that patch vs the game's first access to `Application` varies per start. Win the
+   race -> mods load -> Nebula runs. Lose it -> only the *preloader* runs (zero plugins), the
+   game boots vanilla and HANGS at `ApplyPowerSettings` (high CPU, AMP stuck on "Starting",
+   no "Game loaded" in the log).
+   **WORKAROUND - "the re-roll":** Stop the instance and Start it again. It usually catches a
+   good run within a try or two. A good run logs the mods loading + "Game loaded" and AMP
+   shows "Running". (A deterministic fix would need BepInEx entrypoint tuning or a
+   start-watchdog that auto-restarts on a hang - not yet implemented.)
 3. **AMP stuck on "Starting" (resolves Issue 10).** `Console.AppReadyRegex` must match a
    line the server actually prints; **"Game loaded"** is reliable. Set:
    `Console.AppReadyRegex=^.*(Game loaded|Initializing dedicated server|Loading latest save).*$`
@@ -163,8 +172,14 @@ open issues (7, 10, and the join failure) and are now baked into the template fi
 
 ## Still open / TODO
 
-1. **Server-side new-game creation** still depends on a full Steam boot; loading a save
-   prepared on a PC client remains the recommended path (see Issue 7's workaround).
+1. **Server-side new-game now WORKS** (confirmed 2026-06-06, once the Steam fix was in).
+   World Mode "New game" (`-newgame-cfg`) generates a fresh galaxy on the server (creates
+   `BepInEx/config/nebulaGameDescSettings.cfg`, logs `Generate Terrain/Vegetables/Veins`),
+   no save upload needed. Uploading a PC-made save is only needed for a *specific* existing
+   world. (Subject to the same start-race as everything else — re-roll if it hangs.)
+0. **Startup reliability (the re-roll)** is the main remaining rough edge — see RESOLVED
+   item 2. If a start hangs on "Starting", Stop/Start to re-roll. A deterministic fix
+   (entrypoint tuning or a start-watchdog) is a possible future improvement.
 2. **Decide whether to silence** the harmless Discord RPC warning.
 3. **Note:** the **gbe_fork** approach and **p7zip** are **no longer used** (we no longer
    download a `.7z`). Connecting via a **domain** (e.g. `host:25624` through a DNS name)

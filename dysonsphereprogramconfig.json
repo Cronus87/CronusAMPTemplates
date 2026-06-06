@@ -4,7 +4,7 @@
         "Category": "Dyson Sphere Program:videogame_asset",
         "Subcategory": "Game:public:1",
         "Keywords": "world,save,load,latest,new,game,mode",
-        "Description": "What the server does on start. 'Load latest save' = load the newest save in the Save folder (recommended for normal running). 'Load specific save' = load the save named in the 'Save Name' field below (use this to swap between different worlds). 'New game' = generate a brand new galaxy from nebulaGameDescSettings.cfg - NOTE: creating a new world on the server requires the game's full boot, which currently fails under the Goldberg Steam emulator, so prepare worlds on a PC client and upload the save instead (see Save Name help).",
+        "Description": "What the server does on start. 'Load latest save' = load the newest save (recommended for an existing world). 'Load specific save' = load the save named in 'Save Name' below (use to swap worlds). 'New game' = generate a brand new galaxy on the server from BepInEx/config/nebulaGameDescSettings.cfg (no save upload needed). TIP: if a start hangs on 'Starting' (Wine mod-load race), just Stop and Start again to re-roll.",
         "FieldName": "WorldMode",
         "InputType": "enum",
         "IncludeInCommandLine": false,
@@ -12,7 +12,7 @@
         "EnumValues": {
             "-load-latest": "Load latest save",
             "-load": "Load specific save (set Save Name)",
-            "-newgame-cfg": "New game (experimental - needs Goldberg/Steam working)"
+            "-newgame-cfg": "New game (generates a fresh galaxy)"
         }
     },
     {
