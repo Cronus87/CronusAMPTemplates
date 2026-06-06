@@ -4,7 +4,7 @@
         "Category": "Dyson Sphere Program:videogame_asset",
         "Subcategory": "Game:public:1",
         "Keywords": "world,save,load,new,game,seed",
-        "Description": "Controls what the server loads on start. Type ONE of these exactly: '-load-latest' = load the newest save (default, recommended). '-load \"MySave\"' = load a specific save by name. '-newgame 0 64 1' = start a brand new galaxy (numbers = seed, star count, resource multiplier). NOTE: on a fresh server with no save, use -newgame for the very first start, then switch to -load-latest so future restarts resume your galaxy.",
+        "Description": "Controls what the server loads on start. Use ONE of: '-load-latest' = load the newest save (recommended for normal running). '-newgame-cfg' = start a brand NEW galaxy using BepInEx/config/nebulaGameDescSettings.cfg (auto-created with defaults: random seed, 64 stars, 1x resources - edit that file to customise). '-load SaveName' = load a specific save by name. FIRST START on a fresh server: set this to '-newgame-cfg', Start once to generate the galaxy, then change it back to '-load-latest' so restarts resume your galaxy (leaving it on -newgame-cfg may regenerate). IMPORTANT: do NOT use the multi-number form '-newgame 0 64 1' here - AMP passes it as a single argument so Nebula ignores it. Use '-newgame-cfg' instead.",
         "FieldName": "WorldSourceArgs",
         "InputType": "text",
         "IncludeInCommandLine": false,
