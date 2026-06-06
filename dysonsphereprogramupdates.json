@@ -1,0 +1,186 @@
+[
+    {
+        "UpdateStageName": "Welcome",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"echo '==================================================================='; echo ' DYSON SPHERE PROGRAM + NEBULA - SERVER INSTALL'; echo '==================================================================='; echo ' DSP is a PAID game. If prompted, enter the Steam username and'; echo ' password of an account that OWNS Dyson Sphere Program.'; echo ' (Steam Guard: enter the code when asked. Credentials are only'; echo '  needed to DOWNLOAD the game - Goldberg runs it afterwards.)'; echo '==================================================================='\"",
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "[1/9] Download Dyson Sphere Program (Steam login required)",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "SteamCMD",
+        "UpdateSourceData": "1366540",
+        "UpdateSourceArgs": "1366540",
+        "UpdateSourceVersion": "{{DSPBranch}}",
+        "ForceDownloadPlatform": "Windows",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "[2/9] Create steam_appid.txt",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "CreateFile",
+        "UpdateSourceData": "1366540",
+        "UpdateSourceArgs": "{{$FullBaseDir}}steam_appid.txt",
+        "OverwriteExistingFiles": true,
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "[3/9] Initialise Wine prefix (non-destructive - keeps saves)",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"echo 'Initialising Wine prefix (existing prefix and saves are preserved)...'; WINEPREFIX=\\\"{{$FullRootDir}}.wine\\\" WINEARCH=win64 WINEDEBUG=-all /usr/bin/wineboot --init --update && echo 'Wine prefix ready.'\"",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "[4/9] Download Goldberg Steam emulator (gbe_fork)",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "https://github.com/Detanup01/gbe_fork/releases/download/{{GoldbergTag}}/emu-win-release.7z",
+        "UpdateSourceArgs": "goldberg.7z",
+        "UpdateSourceTarget": "{{$FullRootDir}}",
+        "UnzipUpdateSource": false,
+        "OverwriteExistingFiles": true,
+        "UpdateSourceConditionSetting": "UseGoldberg",
+        "UpdateSourceConditionValue": "true",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "[4/9] Install Goldberg emulator (regular build, internet-capable)",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"set -e; cd \\\"{{$FullRootDir}}\\\"; echo 'Unpacking Goldberg...'; rm -rf _goldberg && mkdir -p _goldberg && 7z x -y goldberg.7z -o_goldberg >/dev/null; DLL=$(find _goldberg -path '*regular/x64/steam_api64.dll' | head -n1); if [[ -z \\\"$DLL\\\" ]]; then echo 'ERROR: steam_api64.dll (regular/x64) not found in Goldberg archive'; exit 1; fi; cp -f \\\"$DLL\\\" \\\"{{$FullBaseDir}}steam_api64.dll\\\" && echo 'Installed Goldberg steam_api64.dll'; mkdir -p \\\"{{$FullBaseDir}}steam_settings\\\"; echo '1366540' > \\\"{{$FullBaseDir}}steam_settings/steam_appid.txt\\\"; echo 'Wrote steam_settings/steam_appid.txt (1366540)'; rm -rf _goldberg goldberg.7z; echo 'Goldberg install complete.'\"",
+        "UpdateSourceConditionSetting": "UseGoldberg",
+        "UpdateSourceConditionValue": "true",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "[5/9] Download BepInEx mod loader",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"echo 'Downloading BepInEx {{BepInExVersion}}...'\"",
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "[5/9] Fetch BepInEx",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/xiaoye97-BepInEx-{{BepInExVersion}}.zip",
+        "UpdateSourceArgs": "bepinex.zip",
+        "UpdateSourceTarget": "{{$FullBaseDir}}_bepinex_tmp",
+        "UnzipUpdateSource": true,
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true,
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "[5/9] Install BepInEx into game folder",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"set -e; cd \\\"{{$FullBaseDir}}\\\"; if [[ -d _bepinex_tmp/BepInExPack ]]; then cp -rf _bepinex_tmp/BepInExPack/* ./; else cp -rf _bepinex_tmp/* ./; fi; rm -rf _bepinex_tmp; mkdir -p BepInEx/plugins BepInEx/config; echo 'BepInEx installed (winhttp.dll + BepInEx/ present).'\"",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "[6/9] Install Nebula API",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/nebula-NebulaMultiplayerModApi-{{NebulaApiVersion}}.zip",
+        "UpdateSourceArgs": "nebulaapi.zip",
+        "UpdateSourceTarget": "{{$FullBaseDir}}BepInEx/plugins/nebula-NebulaMultiplayerModApi",
+        "UnzipUpdateSource": true,
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true,
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "[7/9] Install Nebula Multiplayer Mod",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/nebula-NebulaMultiplayerMod-{{NebulaVersion}}.zip",
+        "UpdateSourceArgs": "nebula.zip",
+        "UpdateSourceTarget": "{{$FullBaseDir}}BepInEx/plugins/nebula-NebulaMultiplayerMod",
+        "UnzipUpdateSource": true,
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true,
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "[8/9] Install Nebula dependency: IlLine",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/PhantomGamers-IlLine-1.0.0.zip",
+        "UpdateSourceArgs": "illine.zip",
+        "UpdateSourceTarget": "{{$FullBaseDir}}BepInEx/plugins/PhantomGamers-IlLine",
+        "UnzipUpdateSource": true,
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true,
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "[8/9] Install Nebula dependency: ErrorAnalyzer",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/starfi5h-ErrorAnalyzer-1.3.3.zip",
+        "UpdateSourceArgs": "erroranalyzer.zip",
+        "UpdateSourceTarget": "{{$FullBaseDir}}BepInEx/plugins/starfi5h-ErrorAnalyzer",
+        "UnzipUpdateSource": true,
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true,
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "[8/9] Install Nebula dependency: NebulaCompatibilityAssist",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/starfi5h-NebulaCompatibilityAssist-0.5.0.zip",
+        "UpdateSourceArgs": "compatassist.zip",
+        "UpdateSourceTarget": "{{$FullBaseDir}}BepInEx/plugins/starfi5h-NebulaCompatibilityAssist",
+        "UnzipUpdateSource": true,
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true,
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "[8/9] Install Nebula dependency: BulletTime",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/starfi5h-BulletTime-1.5.13.zip",
+        "UpdateSourceArgs": "bullettime.zip",
+        "UpdateSourceTarget": "{{$FullBaseDir}}BepInEx/plugins/starfi5h-BulletTime",
+        "UnzipUpdateSource": true,
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true,
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "[9/9] Seed default nebula.cfg (your settings are applied on start)",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "CreateFile",
+        "UpdateSourceData": "[Nebula - Settings]\n\nServerPassword = \nHostPort = {{$GamePort}}\nRemoteAccessEnabled = false\nRemoteAccessPassword = \nAutoPauseEnabled = true\n",
+        "UpdateSourceArgs": "{{$FullBaseDir}}BepInEx/config/nebula.cfg",
+        "OverwriteExistingFiles": false,
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "Write setup README into instance",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "CreateFile",
+        "UpdateSourceData": "DYSON SPHERE PROGRAM + NEBULA - SERVER README\n=============================================\n\nFIRST START:\n  - On a brand-new server there is no save yet. Set 'World / Save\n    Selection' to:  -newgame 0 64 1   (seed 0, 64 stars, 1x resources)\n    then Start the server once. After it generates the galaxy, change the\n    setting back to:  -load-latest   so future restarts resume your game.\n\nCONNECTING (clients):\n  - Every player MUST run the SAME Nebula version as this server\n    (see VERSIONS.md / the 'Nebula Version' setting). Install Nebula via\n    r2modman or Thunderstore Mod Manager, then in DSP main menu choose\n    Multiplayer -> Join, and enter:  <this-server-ip>:8469\n  - Open/forward TCP port 8469 to this server.\n\nSAVING (IMPORTANT):\n  - Clean-shutdown auto-save is UNRELIABLE under Wine. Before you Stop or\n    Restart the server, save manually:\n      1. In-game chat:  /server login <Remote Admin Password>\n      2. Then:          /server save\n    (Enable 'Remote Admin' + set the password in the Configuration tab.)\n\nSAVES LOCATION (on the host):\n  dysonsphereprogram/.wine/drive_c/users/*/Documents/Dyson Sphere Program/Save\n\nUPDATING THE MOD STACK:\n  - See VERSIONS.md in the template repo. Bump the version fields in the\n    Configuration tab (or the defaults in the repo) and re-run Update.\n    Keep DSP and Nebula in lockstep.\n",
+        "UpdateSourceArgs": "{{$FullBaseDir}}NEBULA_SERVER_README.txt",
+        "OverwriteExistingFiles": true,
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "Done",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"echo '==================================================================='; echo ' INSTALL COMPLETE - Dyson Sphere Program + Nebula'; echo '-------------------------------------------------------------------'; echo ' FIRST START: set World/Save Selection to  -newgame 0 64 1  then'; echo ' Start once; afterwards set it back to  -load-latest.'; echo ' CONNECT: clients join  <server-ip>:8469  (forward TCP 8469).'; echo ' SAVE before restart via in-game  /server login  then  /server save.'; echo ' Full notes: NEBULA_SERVER_README.txt in the instance folder.'; echo '==================================================================='\"",
+        "SkipOnFailure": true
+    }
+]

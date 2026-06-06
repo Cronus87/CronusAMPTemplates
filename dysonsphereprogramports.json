@@ -1,0 +1,12 @@
+[
+    {
+        "Protocol": "TCP",
+        "Port": 8469,
+        "Offset": 0,
+        "Range": 1,
+        "Ref": "GamePort",
+        "Name": "Nebula Game Port",
+        "Description": "Nebula multiplayer port (WebSocket over TCP). Players connect to your-server-ip:8469. Forward this port (TCP) on your firewall/router.",
+        "ChildPorts": null
+    }
+]

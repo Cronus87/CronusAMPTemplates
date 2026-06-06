@@ -1,0 +1,189 @@
+[
+    {
+        "DisplayName": "World / Save Selection",
+        "Category": "Dyson Sphere Program:videogame_asset",
+        "Subcategory": "Game:public:1",
+        "Keywords": "world,save,load,new,game,seed",
+        "Description": "Controls what the server loads on start. Type ONE of these exactly: '-load-latest' = load the newest save (default, recommended). '-load \"MySave\"' = load a specific save by name. '-newgame 0 64 1' = start a brand new galaxy (numbers = seed, star count, resource multiplier). NOTE: on a fresh server with no save, use -newgame for the very first start, then switch to -load-latest so future restarts resume your galaxy.",
+        "FieldName": "WorldSourceArgs",
+        "InputType": "text",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "-load-latest",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Game Speed (UPS)",
+        "Category": "Dyson Sphere Program:videogame_asset",
+        "Subcategory": "Game:public:1",
+        "Keywords": "ups,speed,tick,rate,performance",
+        "Description": "Server simulation speed in updates-per-second. Default 60 (normal game speed). Lower it (e.g. 30) to reduce CPU load on large factories; raise it for faster idle progression. Valid range 5-240.",
+        "FieldName": "UPS",
+        "InputType": "number",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "60",
+        "MinValue": "5",
+        "MaxValue": "240",
+        "suffix": "UPS",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Max Players (info only)",
+        "Category": "Dyson Sphere Program:videogame_asset",
+        "Subcategory": "Game:public:1",
+        "Keywords": "players,max,slots",
+        "Description": "Display/scheduling hint only - Nebula does not hard-cap players. Sets the AMP user count shown in the panel.",
+        "FieldName": "$MaxUsers",
+        "InputType": "number",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "4",
+        "MinValue": "1",
+        "MaxValue": "32",
+        "suffix": "Players",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Custom Launch Arguments",
+        "Category": "Dyson Sphere Program:videogame_asset",
+        "Subcategory": "Game:public:1",
+        "Keywords": "custom,args,advanced,launch,flags",
+        "Description": "Advanced: extra command-line flags appended verbatim to the DSP launch command. Leave blank unless you know you need it. Do not put a world/save flag here - use 'World / Save Selection' above instead.",
+        "FieldName": "CustomArgs",
+        "InputType": "text",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Server Password",
+        "Category": "Nebula Multiplayer:vpn_key",
+        "Subcategory": "Connection:lock:1",
+        "Keywords": "password,join,security,private",
+        "Description": "Password players must enter to join. Leave blank for no password (anyone with your IP:8469 can join). Written to BepInEx/config/nebula.cfg.",
+        "FieldName": "ServerPassword",
+        "ParamFieldName": "ServerPassword",
+        "InputType": "password",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Auto-Pause When Empty",
+        "Category": "Nebula Multiplayer:vpn_key",
+        "Subcategory": "Connection:lock:1",
+        "Keywords": "pause,idle,empty,performance,save cpu",
+        "Description": "When ON, the simulation pauses while no players are connected (saves CPU). Turn OFF if you want the factory to keep running 24/7 even when nobody is online.",
+        "FieldName": "AutoPauseEnabled",
+        "ParamFieldName": "AutoPauseEnabled",
+        "InputType": "checkbox",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "true",
+        "EnumValues": {
+            "True": "true",
+            "False": "false"
+        }
+    },
+    {
+        "DisplayName": "Enable Remote Admin",
+        "Category": "Nebula Multiplayer:vpn_key",
+        "Subcategory": "Remote Admin:admin_panel_settings:2",
+        "Keywords": "remote,admin,access,commands,save",
+        "Description": "Enables in-game admin chat commands (/server login, /server save, /server load). STRONGLY RECOMMENDED ON - it is the reliable way to force a save before restarting (clean-shutdown auto-save is unreliable under Wine). Requires the Remote Admin Password below.",
+        "FieldName": "RemoteAccessEnabled",
+        "ParamFieldName": "RemoteAccessEnabled",
+        "InputType": "checkbox",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "true",
+        "EnumValues": {
+            "True": "true",
+            "False": "false"
+        }
+    },
+    {
+        "DisplayName": "Remote Admin Password",
+        "Category": "Nebula Multiplayer:vpn_key",
+        "Subcategory": "Remote Admin:admin_panel_settings:2",
+        "Keywords": "remote,admin,password",
+        "Description": "Password used with the in-game '/server login <password>' command to gain admin control (then '/server save'). Set this to something private if Remote Admin is enabled.",
+        "FieldName": "RemoteAccessPassword",
+        "ParamFieldName": "RemoteAccessPassword",
+        "InputType": "password",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Use Goldberg Steam Emulator",
+        "Category": "Versions & Install:tune",
+        "Subcategory": "Steam:settings_applications:1",
+        "Keywords": "goldberg,steam,drm,emulator",
+        "Description": "ON (recommended): replaces steam_api64.dll with the Goldberg/gbe_fork emulator so the server runs without a live Steam login at runtime. Leave ON unless you know you want the offline-Steam-client approach instead. Steam credentials are still required ONCE to DOWNLOAD the game (see install notes).",
+        "FieldName": "UseGoldberg",
+        "InputType": "checkbox",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "true",
+        "EnumValues": {
+            "True": "true",
+            "False": "false"
+        }
+    },
+    {
+        "DisplayName": "DSP Steam Branch",
+        "Category": "Versions & Install:tune",
+        "Subcategory": "Pinned Versions:push_pin:2",
+        "Keywords": "branch,beta,version,steam,build",
+        "Description": "Steam branch to install. 'public' = current live build. Only change if you need a specific DSP beta branch to match a Nebula version. Keep DSP and Nebula in lockstep (see VERSIONS.md).",
+        "FieldName": "DSPBranch",
+        "InputType": "text",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "public",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "BepInEx Version",
+        "Category": "Versions & Install:tune",
+        "Subcategory": "Pinned Versions:push_pin:2",
+        "Keywords": "bepinex,version,mod loader",
+        "Description": "Pinned BepInEx (xiaoye97) version from Thunderstore. Default 5.4.17 (Mono, matches Nebula's dependency). Change only when bumping the whole mod stack - see VERSIONS.md.",
+        "FieldName": "BepInExVersion",
+        "InputType": "text",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "5.4.17",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Nebula Version",
+        "Category": "Versions & Install:tune",
+        "Subcategory": "Pinned Versions:push_pin:2",
+        "Keywords": "nebula,version,multiplayer",
+        "Description": "Pinned Nebula mod version from Thunderstore. Default 0.9.22. ALL players must run this EXACT same Nebula version or they cannot join. See VERSIONS.md before bumping.",
+        "FieldName": "NebulaVersion",
+        "InputType": "text",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "0.9.22",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Nebula API Version",
+        "Category": "Versions & Install:tune",
+        "Subcategory": "Pinned Versions:push_pin:2",
+        "Keywords": "nebula,api,version,dependency",
+        "Description": "Pinned NebulaMultiplayerModApi version. Default 2.1.0 (the version Nebula 0.9.22 depends on). Must match what the chosen Nebula version requires.",
+        "FieldName": "NebulaApiVersion",
+        "InputType": "text",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "2.1.0",
+        "EnumValues": {}
+    },
+    {
+        "DisplayName": "Goldberg (gbe_fork) Release Tag",
+        "Category": "Versions & Install:tune",
+        "Subcategory": "Pinned Versions:push_pin:2",
+        "Keywords": "goldberg,gbe,version,tag,steam emu",
+        "Description": "Pinned gbe_fork (Goldberg) GitHub release tag. Default release-2026_05_30. Downloads emu-win-release.7z. Only the 'regular' build is used (the 'experimental' build blocks internet connections).",
+        "FieldName": "GoldbergTag",
+        "InputType": "text",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "release-2026_05_30",
+        "EnumValues": {}
+    }
+]
