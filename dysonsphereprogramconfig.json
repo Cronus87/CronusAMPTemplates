@@ -1,14 +1,30 @@
 [
     {
-        "DisplayName": "World / Save Selection",
+        "DisplayName": "World Mode",
         "Category": "Dyson Sphere Program:videogame_asset",
         "Subcategory": "Game:public:1",
-        "Keywords": "world,save,load,new,game,seed",
-        "Description": "Controls what the server loads on start. Use ONE of: '-load-latest' = load the newest save (recommended for normal running). '-newgame-cfg' = start a brand NEW galaxy using BepInEx/config/nebulaGameDescSettings.cfg (auto-created with defaults: random seed, 64 stars, 1x resources - edit that file to customise). '-load SaveName' = load a specific save by name. FIRST START on a fresh server: set this to '-newgame-cfg', Start once to generate the galaxy, then change it back to '-load-latest' so restarts resume your galaxy (leaving it on -newgame-cfg may regenerate). IMPORTANT: do NOT use the multi-number form '-newgame 0 64 1' here - AMP passes it as a single argument so Nebula ignores it. Use '-newgame-cfg' instead.",
-        "FieldName": "WorldSourceArgs",
-        "InputType": "text",
+        "Keywords": "world,save,load,latest,new,game,mode",
+        "Description": "What the server does on start. 'Load latest save' = load the newest save in the Save folder (recommended for normal running). 'Load specific save' = load the save named in the 'Save Name' field below (use this to swap between different worlds). 'New game' = generate a brand new galaxy from nebulaGameDescSettings.cfg - NOTE: creating a new world on the server requires the game's full boot, which currently fails under the Goldberg Steam emulator, so prepare worlds on a PC client and upload the save instead (see Save Name help).",
+        "FieldName": "WorldMode",
+        "InputType": "enum",
         "IncludeInCommandLine": false,
         "DefaultValue": "-load-latest",
+        "EnumValues": {
+            "-load-latest": "Load latest save",
+            "-load": "Load specific save (set Save Name)",
+            "-newgame-cfg": "New game (experimental - needs Goldberg/Steam working)"
+        }
+    },
+    {
+        "DisplayName": "Save Name",
+        "Category": "Dyson Sphere Program:videogame_asset",
+        "Subcategory": "Game:public:1",
+        "Keywords": "save,name,world,swap,load",
+        "Description": "Only used when World Mode = 'Load specific save'. Enter the save's name WITHOUT the .dsv extension (exactly as the file is named). Saves live in: dysonsphereprogram/.wine/drive_c/users/amp/Documents/Dyson Sphere Program/Save/  - upload/swap save files there via the File Manager. Leave blank when using 'Load latest save'.",
+        "FieldName": "SaveName",
+        "InputType": "text",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "",
         "EnumValues": {}
     },
     {
