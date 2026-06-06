@@ -20,7 +20,7 @@
         "Category": "Dyson Sphere Program:videogame_asset",
         "Subcategory": "Game:public:1",
         "Keywords": "save,name,world,swap,load",
-        "Description": "Only used when World Mode = 'Load specific save'. Enter the save's name WITHOUT the .dsv extension (exactly as the file is named). Saves live in: dysonsphereprogram/.wine/drive_c/users/amp/Documents/Dyson Sphere Program/Save/  - upload/swap save files there via the File Manager. Leave blank when using 'Load latest save'.",
+        "Description": "Only used when World Mode = 'Load specific save'. Enter the save's name WITHOUT the .dsv extension (exactly as the file is named). Upload/swap save files via the File Manager into the visible shortcut folder: dysonsphereprogram/Save/ (it links to the real save folder hidden inside .wine). Leave blank when using 'Load latest save'.",
         "FieldName": "SaveName",
         "InputType": "text",
         "IncludeInCommandLine": false,
