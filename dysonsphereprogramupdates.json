@@ -66,6 +66,14 @@
         "SkipOnFailure": true
     },
     {
+        "UpdateStageName": "[5/9] Prepare BepInEx temp dir",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"mkdir -p \\\"{{$FullBaseDir}}_bepinex_tmp\\\" && echo 'BepInEx temp dir ready.'\"",
+        "SkipOnFailure": false
+    },
+    {
         "UpdateStageName": "[5/9] Fetch BepInEx",
         "UpdateSourcePlatform": "All",
         "UpdateSource": "FetchURL",
@@ -83,6 +91,14 @@
         "UpdateSource": "Executable",
         "UpdateSourceData": "/bin/bash",
         "UpdateSourceArgs": "-c \"set -e; cd \\\"{{$FullBaseDir}}\\\"; if [[ -d _bepinex_tmp/BepInExPack ]]; then cp -rf _bepinex_tmp/BepInExPack/* ./; else cp -rf _bepinex_tmp/* ./; fi; rm -rf _bepinex_tmp; mkdir -p BepInEx/plugins BepInEx/config; echo 'BepInEx installed (winhttp.dll + BepInEx/ present).'\"",
+        "SkipOnFailure": false
+    },
+    {
+        "UpdateStageName": "[6/9] Prepare plugin directories",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"cd \\\"{{$FullBaseDir}}\\\" && mkdir -p BepInEx/config BepInEx/plugins/nebula-NebulaMultiplayerModApi BepInEx/plugins/nebula-NebulaMultiplayerMod BepInEx/plugins/PhantomGamers-IlLine BepInEx/plugins/starfi5h-ErrorAnalyzer BepInEx/plugins/starfi5h-NebulaCompatibilityAssist BepInEx/plugins/starfi5h-BulletTime && echo 'Plugin directories ready.'\"",
         "SkipOnFailure": false
     },
     {
