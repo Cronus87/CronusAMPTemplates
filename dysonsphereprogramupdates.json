@@ -43,24 +43,11 @@
         "SkipOnFailure": true
     },
     {
-        "UpdateStageName": "[4/9] Download Goldberg Steam emulator (gbe_fork)",
-        "UpdateSourcePlatform": "All",
-        "UpdateSource": "FetchURL",
-        "UpdateSourceData": "https://github.com/Detanup01/gbe_fork/releases/download/{{GoldbergTag}}/emu-win-release.7z",
-        "UpdateSourceArgs": "goldberg.7z",
-        "UpdateSourceTarget": "{{$FullRootDir}}",
-        "UnzipUpdateSource": false,
-        "OverwriteExistingFiles": true,
-        "UpdateSourceConditionSetting": "UseGoldberg",
-        "UpdateSourceConditionValue": "true",
-        "SkipOnFailure": false
-    },
-    {
-        "UpdateStageName": "[4/9] Install Goldberg emulator (regular build, internet-capable)",
+        "UpdateStageName": "[4/9] Install Goldberg Steam emulator (original Mr_Goldberg)",
         "UpdateSourcePlatform": "Linux",
         "UpdateSource": "Executable",
         "UpdateSourceData": "/bin/bash",
-        "UpdateSourceArgs": "-c \"set -e; cd \\\"{{$FullRootDir}}\\\"; echo 'Unpacking Goldberg...'; rm -rf _goldberg && mkdir -p _goldberg && 7z x -y goldberg.7z -o_goldberg >/dev/null; DLL=$(find _goldberg -path '*regular/x64/steam_api64.dll' | head -n1); if [[ -z \\\"$DLL\\\" ]]; then echo 'ERROR: steam_api64.dll (regular/x64) not found in Goldberg archive'; exit 1; fi; cp -f \\\"$DLL\\\" \\\"{{$FullBaseDir}}steam_api64.dll\\\" && echo 'Installed Goldberg steam_api64.dll'; mkdir -p \\\"{{$FullBaseDir}}steam_settings\\\"; echo '1366540' > \\\"{{$FullBaseDir}}steam_settings/steam_appid.txt\\\"; echo 'Wrote steam_settings/steam_appid.txt (1366540)'; rm -rf _goldberg goldberg.7z; echo 'Goldberg install complete.'\"",
+        "UpdateSourceArgs": "-c \"set -e; P=\\\"{{$FullBaseDir}}DSPGAME_Data/Plugins/x86_64\\\"; cd \\\"$P\\\"; [ -f steam_api64.dll.orig ] || cp steam_api64.dll steam_api64.dll.orig; echo 'Installing original Goldberg steam_api64.dll...'; curl -s -L -o steam_api64.dll \\\"{{GoldbergUrl}}\\\"; mkdir -p steam_settings; touch steam_settings/disable_networking.txt; echo '1366540' > steam_settings/steam_appid.txt; echo '1366540' > \\\"{{$FullBaseDir}}steam_appid.txt\\\"; rm -f \\\"{{$FullBaseDir}}steam_api64.dll\\\"; rm -rf \\\"{{$FullBaseDir}}steam_settings\\\"; echo 'Goldberg installed ('$(stat -c %s steam_api64.dll)' bytes) to DSPGAME_Data/Plugins/x86_64/'\"",
         "UpdateSourceConditionSetting": "UseGoldberg",
         "UpdateSourceConditionValue": "true",
         "SkipOnFailure": false
@@ -106,7 +93,7 @@
         "UpdateSourcePlatform": "Linux",
         "UpdateSource": "Executable",
         "UpdateSourceData": "/bin/bash",
-        "UpdateSourceArgs": "-c \"cd \\\"{{$FullBaseDir}}\\\" && mkdir -p BepInEx/config BepInEx/plugins/nebula-NebulaMultiplayerModApi BepInEx/plugins/nebula-NebulaMultiplayerMod BepInEx/plugins/PhantomGamers-IlLine BepInEx/plugins/starfi5h-ErrorAnalyzer BepInEx/plugins/starfi5h-NebulaCompatibilityAssist BepInEx/plugins/starfi5h-BulletTime && echo 'Plugin directories ready.'\"",
+        "UpdateSourceArgs": "-c \"cd \\\"{{$FullBaseDir}}\\\" && mkdir -p BepInEx/config BepInEx/plugins/nebula-NebulaMultiplayerModApi BepInEx/plugins/nebula-NebulaMultiplayerMod BepInEx/plugins/PhantomGamers-IlLine BepInEx/plugins/starfi5h-ErrorAnalyzer BepInEx/plugins/starfi5h-NebulaCompatibilityAssist BepInEx/plugins/starfi5h-BulletTime BepInEx/plugins/CommonAPI-DSPModSave && echo 'Plugin directories ready.'\"",
         "SkipOnFailure": false
     },
     {
@@ -161,7 +148,7 @@
         "UpdateStageName": "[8/9] Install Nebula dependency: NebulaCompatibilityAssist",
         "UpdateSourcePlatform": "All",
         "UpdateSource": "FetchURL",
-        "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/starfi5h-NebulaCompatibilityAssist-0.5.0.zip",
+        "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/starfi5h-NebulaCompatibilityAssist-0.5.1.zip",
         "UpdateSourceArgs": "compatassist.zip",
         "UpdateSourceTarget": "{{$FullBaseDir}}BepInEx/plugins/starfi5h-NebulaCompatibilityAssist",
         "UnzipUpdateSource": true,
@@ -176,6 +163,18 @@
         "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/starfi5h-BulletTime-1.5.13.zip",
         "UpdateSourceArgs": "bullettime.zip",
         "UpdateSourceTarget": "{{$FullBaseDir}}BepInEx/plugins/starfi5h-BulletTime",
+        "UnzipUpdateSource": true,
+        "OverwriteExistingFiles": true,
+        "DeleteAfterExtract": true,
+        "SkipOnFailure": true
+    },
+    {
+        "UpdateStageName": "[8/9] Install Nebula dependency: DSPModSave",
+        "UpdateSourcePlatform": "All",
+        "UpdateSource": "FetchURL",
+        "UpdateSourceData": "https://gcdn.thunderstore.io/live/repository/packages/CommonAPI-DSPModSave-1.2.2.zip",
+        "UpdateSourceArgs": "dspmodsave.zip",
+        "UpdateSourceTarget": "{{$FullBaseDir}}BepInEx/plugins/CommonAPI-DSPModSave",
         "UnzipUpdateSource": true,
         "OverwriteExistingFiles": true,
         "DeleteAfterExtract": true,

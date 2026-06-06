@@ -11,7 +11,7 @@ on an existing instance and re-running **Update**.
 | Component | Version field (config) | Default | Source / download |
 |-----------|------------------------|---------|-------------------|
 | Dyson Sphere Program | `DSPBranch` | `public` | SteamCMD app `1366540`, Windows build |
-| Goldberg (gbe_fork) | `GoldbergTag` | `release-2026_05_30` | `https://github.com/Detanup01/gbe_fork/releases/download/<tag>/emu-win-release.7z` (uses `release/regular/x64/steam_api64.dll`) |
+| Goldberg (original Mr_Goldberg) | `GoldbergUrl` | `https://gitlab.com/Mr_Goldberg/goldberg_emulator/-/jobs/4247811307/artifacts/raw/release/steam_api64.dll` | Direct download of the ORIGINAL Mr_Goldberg `steam_api64.dll` from a known-good GitLab CI artifact. Installed to `DSPGAME_Data/Plugins/x86_64/steam_api64.dll` (the copy Unity actually loads) alongside `steam_settings/disable_networking.txt`. **Previously gbe_fork — that did NOT work under Wine** (needs an MSVC runtime Wine lacks). |
 | BepInEx (xiaoye97) | `BepInExVersion` | `5.4.17` | `https://gcdn.thunderstore.io/live/repository/packages/xiaoye97-BepInEx-<ver>.zip` (BepInEx 5.x Mono) |
 | Nebula API | `NebulaApiVersion` | `2.1.0` | `https://gcdn.thunderstore.io/live/repository/packages/nebula-NebulaMultiplayerModApi-<ver>.zip` |
 | Nebula mod | `NebulaVersion` | `0.9.22` | `https://gcdn.thunderstore.io/live/repository/packages/nebula-NebulaMultiplayerMod-<ver>.zip` |
@@ -26,8 +26,30 @@ When you bump Nebula, check its Thunderstore dependency list and update these to
 |------------|----------------|------------------------|
 | IlLine | `1.0.0` | `PhantomGamers-IlLine` |
 | ErrorAnalyzer | `1.3.3` | `starfi5h-ErrorAnalyzer` |
-| NebulaCompatibilityAssist | `0.5.0` | `starfi5h-NebulaCompatibilityAssist` |
+| NebulaCompatibilityAssist | `0.5.1` | `starfi5h-NebulaCompatibilityAssist` |
+| DSPModSave | `1.2.2` | `CommonAPI-DSPModSave` |
 | BulletTime | `1.5.13` | `starfi5h-BulletTime` |
+
+> **Note:** `NebulaCompatibilityAssist` requires `DSPModSave` (`CommonAPI-DSPModSave`)
+> to load — without it the compatibility mod fails and clients get
+> "Server is missing mod NebulaCompatibilityAssist". Do **NOT** add CommonAPI core
+> (`CommonAPI-CommonAPI`): the client mod set does not include it, and an extra mod
+> breaks Nebula's mod-list match.
+
+## Mod-list must match the client EXACTLY
+
+The server's `BepInEx/plugins` set must be **identical** to the client's r2modman
+mod set — no extra mods, no missing mods, and matching versions — or clients get
+**"Server is missing mod X"** on join. The confirmed-working set is:
+
+- BepInEx **5.4.17**
+- NebulaMultiplayerMod **0.9.22**
+- NebulaMultiplayerModApi **2.1.0**
+- NebulaCompatibilityAssist **0.5.1**
+- DSPModSave **1.2.2** (CommonAPI namespace — full-name `CommonAPI-DSPModSave`)
+- BulletTime **1.5.13**
+- ErrorAnalyzer **1.3.3**
+- IlLine **1.0.0**
 
 ## The lockstep rule (read before bumping)
 

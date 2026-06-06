@@ -135,9 +135,37 @@ Australian English spelling is used throughout.
 
 ---
 
+## RESOLVED — what finally made it work (2026-06-06)
+
+The server now runs and clients can join. The fixes below resolved the previously
+open issues (7, 10, and the join failure) and are now baked into the template files.
+
+1. **Steam init (resolves Issue 7).** Use the **ORIGINAL Mr_Goldberg** `steam_api64.dll`
+   — **NOT gbe_fork**, which needs an MSVC runtime Wine lacks. Install it to
+   `DSPGAME_Data/Plugins/x86_64/steam_api64.dll` (the copy Unity actually loads) —
+   **NOT the game root**. Remove any game-root `steam_api64.dll`: it shadows the
+   correct one via the Windows `LoadLibrary` search order. Add
+   `steam_settings/disable_networking.txt`. Result: `SteamAPI_Init` succeeds
+   ("Steam achievement data sync successful"). The DLL URL is now the `GoldbergUrl`
+   config field (default = a known-good GitLab CI artifact).
+2. **BepInEx mod-loading race under Wine** (game hung at the menu with no GPU): fixed
+   by using the community Wine env — `WINEDLLOVERRIDES="mscoree=n,b;mshtml=n,b;winhttp=n,b"`
+   — and a proper virtual display: `xvfb-run -a -s "-screen 0 1280x720x24"`. After this
+   the save loads and the server binds its port reliably.
+3. **AMP stuck on "Starting" (resolves Issue 10).** `Console.AppReadyRegex` must match a
+   line the server actually prints; **"Game loaded"** is reliable. Set:
+   `Console.AppReadyRegex=^.*(Game loaded|Initializing dedicated server|Loading latest save).*$`
+4. **Client could not join ("Server is missing mod NebulaCompatibilityAssist").** The
+   server mod set must **EXACTLY** match the client's r2modman set.
+   NebulaCompatibilityAssist needs **DSPModSave** (`CommonAPI-DSPModSave` **1.2.2**) to
+   load; the client also used **NebulaCompatibilityAssist 0.5.1** (not 0.5.0) and did
+   **NOT** have CommonAPI core. Match versions exactly and don't add extra mods.
+
 ## Still open / TODO
 
-1. **Goldberg `SteamAPI_Init` fix** for server-side new game (see Issue 7) — likely `winetricks vcrun2019` into the prefix and/or generating `steam_settings/steam_interfaces.txt`.
-2. **Confirm `Console.AppReadyRegex`** plus user join/leave regexes against a live running server (see Issue 10).
-3. **NebulaCompatibilityAssist** needs dependency `crecheng-DSPModSave` added to the install (currently fails to load).
-4. **Decide whether to silence** the harmless Discord RPC warning.
+1. **Server-side new-game creation** still depends on a full Steam boot; loading a save
+   prepared on a PC client remains the recommended path (see Issue 7's workaround).
+2. **Decide whether to silence** the harmless Discord RPC warning.
+3. **Note:** the **gbe_fork** approach and **p7zip** are **no longer used** (we no longer
+   download a `.7z`). Connecting via a **domain** (e.g. `host:25624` through a DNS name)
+   is a separate DNS / port-forwarding matter, **not** a server config issue.

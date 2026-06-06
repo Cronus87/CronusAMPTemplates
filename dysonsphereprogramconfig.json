@@ -191,15 +191,15 @@
         "EnumValues": {}
     },
     {
-        "DisplayName": "Goldberg (gbe_fork) Release Tag",
+        "DisplayName": "Goldberg steam_api64.dll URL",
         "Category": "Versions & Install:tune",
         "Subcategory": "Pinned Versions:push_pin:2",
-        "Keywords": "goldberg,gbe,version,tag,steam emu",
-        "Description": "Pinned gbe_fork (Goldberg) GitHub release tag. Default release-2026_05_30. Downloads emu-win-release.7z. Only the 'regular' build is used (the 'experimental' build blocks internet connections).",
-        "FieldName": "GoldbergTag",
+        "Keywords": "goldberg,steam,emulator,url",
+        "Description": "Direct download URL for the ORIGINAL Mr_Goldberg steam_api64.dll (self-contained; works under Wine where gbe_fork fails). Default points at a known-good GitLab CI artifact. This DLL replaces DSPGAME_Data/Plugins/x86_64/steam_api64.dll.",
+        "FieldName": "GoldbergUrl",
         "InputType": "text",
         "IncludeInCommandLine": false,
-        "DefaultValue": "release-2026_05_30",
+        "DefaultValue": "https://gitlab.com/Mr_Goldberg/goldberg_emulator/-/jobs/4247811307/artifacts/raw/release/steam_api64.dll",
         "EnumValues": {}
     }
 ]
