@@ -1,0 +1,10 @@
+[
+    {
+        "UpdateStageName": "Apply autosave interval to options.xml",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"F=\\\"{{$FullRootDir}}.wine/drive_c/users/amp/Documents/Dyson Sphere Program/options.xml\\\"; if [ -f \\\"$F\\\" ]; then sed -i \\\"s#<AutosavingInterval>[0-9]*</AutosavingInterval>#<AutosavingInterval>{{AutosaveInterval}}</AutosavingInterval>#\\\" \\\"$F\\\" && echo 'Autosave interval set to {{AutosaveInterval}}s'; else echo 'options.xml not present yet (created on first run); autosave interval applies from the next start'; fi\"",
+        "SkipOnFailure": true
+    }
+]

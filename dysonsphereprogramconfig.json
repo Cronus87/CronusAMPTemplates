@@ -43,6 +43,21 @@
         "EnumValues": {}
     },
     {
+        "DisplayName": "Autosave Interval (seconds)",
+        "Category": "Dyson Sphere Program:videogame_asset",
+        "Subcategory": "Game:public:1",
+        "Keywords": "autosave,save,interval,frequency,backup",
+        "Description": "How often (in seconds of ACTIVE play) DSP autosaves to rotating _autosave_ slots. Default 480 (8 min). Lower = more frequent saves, e.g. 240 = 4 min, 120 = 2 min. Written into DSP's options.xml before each start. The sim pauses when empty, so the timer only counts while players are online. World Mode 'Load latest save' resumes the newest autosave on restart. For an on-demand save, enable Remote Admin and use in-game '/server save'.",
+        "FieldName": "AutosaveInterval",
+        "InputType": "number",
+        "IncludeInCommandLine": false,
+        "DefaultValue": "480",
+        "MinValue": "30",
+        "MaxValue": "3600",
+        "suffix": "seconds",
+        "EnumValues": {}
+    },
+    {
         "DisplayName": "Max Players (info only)",
         "Category": "Dyson Sphere Program:videogame_asset",
         "Subcategory": "Game:public:1",
